@@ -1,6 +1,6 @@
 // How to use
 // 1. Upload fn.js as resource
-// 2. Insert the following statement at the beginning of one of your .js files
+// 2. Insert the following statement at the beginning of all .js files in all views
 //    $scope.app.fn.loadResourceScript("Uploaded/fn.js")
 
 (() =>
