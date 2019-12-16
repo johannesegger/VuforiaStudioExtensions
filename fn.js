@@ -255,9 +255,7 @@ let addFunctions = (scope, $interval) =>
     scope.setColor = (widgetId, r, g, b) =>
     {
         let widget = getWidget(widgetId)
-        console.log("c1", widget.color);
         widget.color = `rgba(${r}, ${g}, ${b}, 1)`
-        console.log("c1", widget.color);
     }
 
     scope.resetColor = widgetId =>
