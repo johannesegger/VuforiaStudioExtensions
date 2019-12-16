@@ -275,8 +275,19 @@ let addFunctions = (scope, $interval) =>
         let widget = getWidget(widgetId)
         return new Promise((resolve, reject) =>
         {
-            scope.$on("modelLoaded", resolve)
-            widget.src= `app/resources/Uploaded/${modelName}`
+            let deregisterModelLoadedEvent = scope.$on("modelLoaded", () =>
+            {
+                deregisterModelLoadedEvent()
+                deregisterModelLoadFailedEvent()
+                resolve()
+            })
+            let deregisterModelLoadFailedEvent = scope.$on("modelloadfailed", () =>
+            {
+                deregisterModelLoadedEvent()
+                deregisterModelLoadFailedEvent()
+                reject()
+            })
+            widget.src = `app/resources/Uploaded/${modelName}`
         })
     }
 }
