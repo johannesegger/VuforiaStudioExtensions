@@ -290,6 +290,22 @@ let addFunctions = (scope, $interval) =>
             widget.src = `app/resources/Uploaded/${modelName}`
         })
     }
+
+    let getWidgetScope = widgetId =>
+    {
+        let widgetNode = document.getElementById(widgetId)
+        return angular.element(widgetNode).scope()
+    }
+
+    scope.playAllSequenceSteps = widgetId =>
+    {
+        getWidgetScope(widgetId).playAll()
+    }
+
+    scope.playNextSequenceStep = widgetId =>
+    {
+        getWidgetScope(widgetId).play()
+    }
 }
 
 Array.from(document.querySelectorAll("ion-view"))
