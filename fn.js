@@ -110,7 +110,7 @@
             delete animations[animationKey]
         }
 
-        scope.toggleAnimateFromTo = (widgetId, propertyName, fromValue, toValue, duration, delay) =>
+        let toggleAnimation = (widgetId, propertyName, startAnimation) =>
         {
             let widget = getWidget(widgetId)
             let animationKey = `${widget.widgetName}.${propertyName}`
@@ -118,20 +118,35 @@
                 scope.stopAnimation(widget, propertyName)
             }
             else {
-                scope.animateFromTo(widget, propertyName, fromValue, toValue, duration, delay)
+                startAnimation()
             }
+        }
+
+        scope.toggleAnimateFromTo = (widgetId, propertyName, fromValue, toValue, duration, delay) =>
+        {
+            toggleAnimation(
+                widgetId,
+                propertyName,
+                () => scope.animateFromTo(widgetId, propertyName, fromValue, toValue, duration, delay)
+            )
+        }
+
+        scope.toggleAnimateTo = (widgetId, propertyName, toValue, duration, delay) =>
+        {
+            toggleAnimation(
+                widgetId,
+                propertyName,
+                () => scope.animateTo(widgetId, propertyName, toValue, duration, delay)
+            )
         }
 
         scope.toggleAnimateBy = (widgetId, propertyName, deltaValue, delay) =>
         {
-            let widget = getWidget(widgetId)
-            let animationKey = `${widget.widgetName}.${propertyName}`
-            if (animations[animationKey]) {
-                scope.stopAnimation(widget, propertyName)
-            }
-            else {
-                scope.animateBy(widget, propertyName, deltaValue, delay)
-            }
+            toggleAnimation(
+                widgetId,
+                propertyName,
+                () => scope.animateBy(widgetId, propertyName, deltaValue, delay)
+            )
         }
 
         scope.animateRotation = (widgetId, axisName, deltaAngle, delay) =>
@@ -146,14 +161,12 @@
 
         scope.toggleRotation = (widgetId, axisName, deltaAngle, delay) =>
         {
-            let widget = getWidget(widgetId)
-            let animationKey = `${widget.widgetName}.r${axisName.toLowerCase()}`
-            if (animations[animationKey]) {
-                scope.stopRotation(widget, axisName)
-            }
-            else {
-                scope.animateRotation(widget, axisName, deltaAngle, delay)
-            }
+            let propertyName = `r${axisName.toLowerCase()}`
+            toggleAnimation(
+                widgetId,
+                propertyName,
+                () => scope.animateBy(widgetId, propertyName, deltaAngle, delay)
+            )
         }
 
         scope.highlight = (widgetId, times, hue, interval) =>
