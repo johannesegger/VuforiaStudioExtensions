@@ -46,8 +46,15 @@
     {
         let getWidget = widgetId => typeof widgetId == "string" ? scope.view.wdg[widgetId] : widgetId
 
+        let clamp = (value, from, to) =>
+        {
+            let min = Math.min(from, to)
+            let max = Math.max(from, to)
+            return Math.max(min, Math.min(max, value))
+        }
+
         let animations = {}
-        let animate = (widgetId, propertyName, fromValue, deltaValue, delay, count) =>
+        let animate = (widgetId, propertyName, fn, delay, count) =>
         {
             let widget = getWidget(widgetId)
             let animationKey = `${widget.widgetName}.${propertyName}`
@@ -55,11 +62,7 @@
                 $interval.cancel(animations[animationKey])
             }
 
-            if (fromValue !== undefined)
-            {
-                widget[propertyName] = fromValue
-            }
-            animations[animationKey] = $interval(() => widget[propertyName] += deltaValue, delay, count)
+            animations[animationKey] = $interval(() => fn(widget), delay, count)
             if (count == 0)
             {
                 return animations[animationKey]
@@ -70,17 +73,27 @@
 
         scope.animateFromTo = (widgetId, propertyName, fromValue, toValue, duration, delay) =>
         {
+            let widget = getWidget(widgetId)
             duration = duration !== undefined ? duration : 1000
             delay = delay !== undefined ? delay : 50
             let count = Math.floor(duration / delay)
             let deltaValue = (toValue - fromValue) / count
-            return animate(widgetId, propertyName, fromValue, deltaValue, delay, count)
+            let fn = widget =>
+            {
+                widget[propertyName] = clamp(widget[propertyName] + deltaValue, fromValue, toValue)
+            }
+            widget[propertyName] = fromValue
+            return animate(widgetId, propertyName, fn, delay, count)
         }
 
         scope.animateBy = (widgetId, propertyName, deltaValue, delay) =>
         {
             delay = delay !== undefined ? delay : 50
-            return animate(widgetId, propertyName, undefined, deltaValue, delay, 0)
+            let fn = widget =>
+            {
+                widget[propertyName] = widget[propertyName] + deltaValue
+            }
+            return animate(widgetId, propertyName, fn, delay, 0)
         }
 
         scope.stopAnimation = (widgetId, propertyName) =>
