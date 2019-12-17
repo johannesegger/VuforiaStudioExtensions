@@ -86,6 +86,12 @@
             return animate(widgetId, propertyName, fn, delay, count)
         }
 
+        scope.animateTo = (widgetId, propertyName, toValue, duration, delay) =>
+        {
+            let widget = getWidget(widgetId)
+            return scope.animateFromTo(widget, propertyName, widget[propertyName], toValue, duration, delay)
+        }
+
         scope.animateBy = (widgetId, propertyName, deltaValue, delay) =>
         {
             delay = delay !== undefined ? delay : 50
