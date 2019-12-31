@@ -220,3 +220,7 @@ $scope.flyBack = (axis, offset) => fly(axis, offset, -1)
 > Important: Every widget that should be removed needs `setWidget(me)` as click event handler.
 > Then in an application event handler (e.g. `doubletap`) write `viewCtrl.flyAway()` and in another one `viewCtrl.flyBack` to trigger removing the selected widget.
 > Note that before you can remove an element you have to select it by clicking on it (the selected widget becomes red).
+
+## Contributors
+
+This library wouldn't be what it is without the help of DI Eva Weigl, PhD. Thanks a lot.
