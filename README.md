@@ -80,6 +80,7 @@ Most examples use "fn.js" - a JavaScript file that can be included in any projec
 * `animateFromTo("model", "y", 1.2, 0.046)` - Animate y axis movement from 1.2m to 0.046m
 * `animateTo("model", "y", 0.046)` - Animate y axis movement from current position to 0.046m
 * `animateBy("model", "y", 0.01, 50)` - Continuously change y value by 0.01m per 50ms
+* `animateBy("model", "y", 0.01, 50, 100)` - Change y value 100 times by 0.01m per 50ms.
 * `stopAnimation("model", "y")` - Stop y axis movement
 * `toggleAnimateFromTo("model", "y", 1.2, 0.046)` - Start movement if stopped, stop if started
 * `toggleAnimateTo("model", "y", 0.046)` - Start movement if stopped, stop if started
