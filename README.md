@@ -105,14 +105,13 @@ Most examples use "fn.js" - a JavaScript file that can be included in any projec
 * Put the following snippet into &lt;view&gt;.js:
 
   ```js
-  // Define a list of colors with red, green, blue and transparency values
-  // Using "" resets the color to the original one
-  let colors = ["rgba(255, 0, 0, 1)", "rgba(0, 255, 0, 1)", "rgba(0, 0, 255, 1)", ""]
+  // Define a list of colors with red, green, blue
+  let colors = [ [255, 0, 0], [0, 255, 0], [0, 0, 255] ]
   let selectedColor = 0 // The index of the current color (list indices start with 0)
 
   $scope.changeColor = () =>
   {
-      $scope.setColor("model", colors[selectedColor])
+      $scope.setColor("model", colors[selectedColor][0], colors[selectedColor][1], colors[selectedColor][2])
       selectedColor = (selectedColor + 1) % colors.length
   }
   ```
